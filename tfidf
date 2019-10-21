@@ -1,0 +1,39 @@
+§Ranked retrieval
+§ Scoring documents
+§ Term frequency
+§ Collection statistics
+§ Weighting schemes
+§ Vector space scoring
+
+&&Ranked retrieval
+  Ranked retrieval is the ranking of retrieved results based on a parameter. For example, when you perform a google query, the retrieved results are ranked based on the semantic and syntactic closeness of the retrieved results. Additionally you can add or remove more parameters to be considered while ranking the results. Depending on the parameters the ranking may vary among the same set of retrieved documents.
+
+1. system returns an ordering over the (top) documents in the collection with respect to a query
+2. Feast or famine: not a problem in ranked retrieval. System just show the top k (≈10) results
+3.Scoring (basis of ranked retrieval): (L6 slide -P15)
+   use tf when computing query-document match scores
+   1)raw-tf: term frequency in a doc
+     TFtoken= # of times token t appear in Dj(document j)
+     cons: Relevance does not increase proportionally with term frequency
+   2)log-frequency weighting
+     w = 1 + log10(tf), if tf > 0
+         0 , if tf = 0
+     TFnorm_token = 1.0 + ln(1.0 + ln( TFtoken))
+   3)raw-df: # of doc containing token t
+     dft is an inverse measure of the informativeness of t.
+     why we need it?
+     -- use document frequency (df) to capture the rare terms(e.g. Frequent terms are less informative than rare terms )
+    4)idf: inverse document frequency of t
+      idf  = log10(N/df)    N is the total # of doc
+      cons: only affects the ranking of docs for queries with at least 2 terms
+     ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ 
+    5) In order to have a better weight to search a term, we have tf-idf
+      tf-idf = tf x idf (slide L6 P23)
+      pros:Increases with the number of occurrences within a document
+           Increases with the rarity of the term in the collection
+    Score(q,d) = ∑ tf.idf(t,d),  t∈q∩d，q->query, d->doc, t->term/token
+
+4. vector space scoring
+  1) documents as vectors
+  2) queries as vectors
+  L6 P29
